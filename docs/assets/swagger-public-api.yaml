@@ -1,0 +1,1785 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Lucidya PUBLIC API DOC",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://api.lucidya.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/monitors_list": {
+      "get": {
+        "summary": "Public API - Monitors List",
+        "tags": [
+          "Public API - Monitors List"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_id",
+            "in": "query",
+            "example": 1,
+            "description": "this parameter indicates the number of page to retrive",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all monitors list",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "12345",
+                          "type": "monitor_model",
+                          "attributes": {
+                            "id": 12345,
+                            "status": "active",
+                            "name": "Dummy Monitor",
+                            "monitor_type_name": "keyword",
+                            "paused": 0,
+                            "description": "This is a dummy monitor",
+                            "is_deleted": 0,
+                            "created_at": "2022-01-01",
+                            "data_sources": [
+                              "twitter"
+                            ],
+                            "added_by": "John Doe",
+                            "data_category": "social media",
+                            "channel": [
+                              "twitter"
+                            ],
+                            "account_name": "Dummy Account",
+                            "total_count": 100,
+                            "third_party_unique_id": null,
+                            "percentage": 0.0,
+                            "stream_status": "collecting",
+                            "limit_error": [
+
+                            ],
+                            "monitor_owner": false,
+                            "keywords_stats": {
+                              "twitter_keywords_count": 1
+                            },
+                            "monitor_creator": {
+                              "id": 1234,
+                              "email": "johndoe@example.com",
+                              "name": "John Doe"
+                            },
+                            "created_at_in_unix": 1640995200,
+                            "dm_channel": 0,
+                            "dm_configuration_id": 0,
+                            "topics": [
+
+                            ],
+                            "account_error": [
+
+                            ],
+                            "account_valid_error": [
+
+                            ],
+                            "monitor_account_name": "",
+                            "monitor_warning": ""
+                          }
+                        }
+                      ],
+                      "page_number": "1",
+                      "count": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "missing_params",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "detail": "Page_id is required"
+                      }
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "detail": "Page_id must be a number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/widgets": {
+      "get": {
+        "summary": "Social Listening - Base APIs",
+        "tags": [
+          "Public APIs - Social Listening - Base APIs"
+        ],
+        "parameters": [
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "example": 1,
+            "required": true,
+            "description": "The ID of the product being monitored.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "twitter",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "description": "The API authorization token for the request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "data_source": "twitter",
+                        "widgets_names": [
+                          "volume_overtime",
+                          "interactions",
+                          "sentiment_analysis",
+                          "reach_funnel",
+                          "content_style",
+                          "associated_topics",
+                          "top_keywords",
+                          "top_hashtags",
+                          "top_images",
+                          "top_videos",
+                          "top_languages",
+                          "dialects_subdialects",
+                          "top_countries",
+                          "top_cities",
+                          "gender_distribution",
+                          "account_types",
+                          "top_engagers",
+                          "top_sources",
+                          "top_verified_engagers",
+                          "top_influencers"
+                        ],
+                        "company_time_zone": 3,
+                        "page_name": "engagements",
+                        "monitor_id": 1234,
+                        "monitor_name": "dummy monitor"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "failure of getting data due to missing params",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "detail": "WRONG_REQUEST_PARAMETERS"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page Not Found or Monitor Not Found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "source": {
+                        },
+                        "status": 404,
+                        "detail": "PAGE_NOT_FOUND"
+                      }
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "Couldn't find MonitorModel with 'id'=1235"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/filters": {
+      "get": {
+        "summary": "Social Listening - Base APIs",
+        "tags": [
+          "Public APIs - Social Listening - Base APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "description": "The API authorization token for the request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "twitter",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "example": 1,
+            "required": true,
+            "description": "The ID of the product being monitored.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all filters for a specific data_source Page",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": [
+                        {
+                          "name": "sentiment",
+                          "selection_attribute": "checkbox-labels",
+                          "content_source": "static_content",
+                          "placeholder": "null",
+                          "locale_source": "null",
+                          "default_value": "null",
+                          "priority": "1",
+                          "options": [
+                            {
+                              "value": "1",
+                              "color": "green",
+                              "label": "Positive"
+                            },
+                            {
+                              "value": "0",
+                              "color": "red",
+                              "label": "Negative"
+                            },
+                            {
+                              "value": "2,3",
+                              "color": "yellow",
+                              "label": "Neutral"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page Not Found or Monitor Not Found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "source": {
+                        },
+                        "status": 404,
+                        "detail": "PAGE_NOT_FOUND"
+                      }
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "Couldn't find MonitorModel with 'id'=1235"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/pages": {
+      "get": {
+        "summary": "Social Listening - Base APIs",
+        "tags": [
+          "Public APIs - Social Listening - Base APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "description": "The API authorization token for the request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "twitter",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all filters for a specific data_source Page",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "pages_name": [
+                          "engagements"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page Not Found or Monitor Not Found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "Couldn't find MonitorModel with 'id'=12354443"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/facebook/widget_data": {
+      "post": {
+        "summary": "Social Listening - Facebook widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - Facebook widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "twitter",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "example": 1622505600,
+            "required": true,
+            "description": "The start date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "example": 1622592000,
+            "required": true,
+            "description": "The end date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "widgets_names",
+            "in": "query",
+            "example": "[\"engagements\",\"customer_care\"]",
+            "required": true,
+            "description": "The names of the widgets being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "job_id": "604e6ca2-d166-4bfa-a51f-f3189f538b94",
+                        "monitor_id": 1234,
+                        "widgets_names": "['top_videos','top_images']"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      },
+      "get": {
+        "summary": "Social Listening - Facebook widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - Facebook widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "description": "The API authorization token for the request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "query",
+            "example": "60b6a9f6-9f7e-4b5d-9e1d-8f1c4d5c6b9e",
+            "required": true,
+            "description": "The ID of the job being queried.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "dataAvailable": true,
+                        "widget_data": {
+                          "Facebook__Engagements__top_images": "{\"top_images\":[{\"id\":\"\",\"src\":\"\",\"data\":\"\",\"stats_count\":1}]}",
+                          "Facebook__Engagements__top_videos": "{\"top_videos\":[]}"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request could not be understood by the server due to malformed syntax"
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/instagram/widget_data": {
+      "post": {
+        "summary": "Social Listening - instagram widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - instagram widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "Instagram",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "example": 1622505600,
+            "required": true,
+            "description": "The start date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "example": 1622592000,
+            "required": true,
+            "description": "The end date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "widgets_names",
+            "in": "query",
+            "example": "[\"engagements\",\"customer_care\"]",
+            "required": true,
+            "description": "The names of the widgets being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "job_id": "604e6ca1-d166-4bfa-a51f-f3189f538b94",
+                        "monitor_id": 1234,
+                        "widgets_names": "['top_videos','top_images']"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      },
+      "get": {
+        "summary": "Social Listening - instagram widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - instagram widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "description": "The API authorization token for the request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "query",
+            "example": "60b6a9f6-9f7e-4b5d-9e1d-8f1c4d5c6b9e",
+            "required": true,
+            "description": "The ID of the job being queried.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "dataAvailable": true,
+                        "widget_data": {
+                          "Instagram__Engagements__top_images": "{\"top_images\":[{\"id\":\"\",\"src\":\"\",\"data\":\"\",\"stats_count\":1}]}",
+                          "Instagram__Engagements__top_videos": "{\"top_videos\":[]}"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request could not be understood by the server due to malformed syntax"
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/nb/widget_data": {
+      "post": {
+        "summary": "Social Listening - nb widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - nb widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "TALKWALKER",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "example": 1622505600,
+            "required": true,
+            "description": "The start date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "example": 1622592000,
+            "required": true,
+            "description": "The end date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "widgets_names",
+            "in": "query",
+            "example": "[\"engagements\",\"customer_care\"]",
+            "required": true,
+            "description": "The names of the widgets being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "job_id": "604e6ca1-d166-4bfa-a51f-f3189f538b94",
+                        "monitor_id": 1234,
+                        "widgets_names": "['top_videos','top_images']"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page Not Found or Monitor Not Found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "Couldn't find MonitorModel with 'id'=12354443"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      },
+      "get": {
+        "summary": "Social Listening - nb widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - nb widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "query",
+            "example": "60b6a9f6-9f7e-4b5d-9e1d-8f1c4d5c6b9e",
+            "required": true,
+            "description": "The ID of the job being queried.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "dataAvailable": true,
+                        "widget_data": {
+                          "Nb__Engagements__top_images": "{\"top_images\":[{\"id\":\"https://t.co/mBu4QAB9Fq\",\"src\":\"http://pbs.twimg.com/media/F1-tHK7WAAcjvev.jpg\",\"data\":\"http://pbs.twimg.com/media/F1-tHK7WAAcjvev.jpg:thumb\",\"stats_count\":1}]}",
+                          "Nb__Engagements__top_videos": "{\"top_videos\":[]}"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The failure of getting data due to wrong version and not exist"
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    },
+    "/twitter/widget_data": {
+      "post": {
+        "summary": "Social Listening - twitter widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - twitter widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_name",
+            "in": "query",
+            "example": "account_page",
+            "required": true,
+            "description": "The name of the page being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data_source",
+            "in": "query",
+            "example": "twitter",
+            "required": true,
+            "description": "The data source being used for monitoring.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "example": 1622505600,
+            "required": true,
+            "description": "The start date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "example": 1622592000,
+            "required": true,
+            "description": "The end date of the monitoring period in Unix timestamp format.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "widgets_names",
+            "in": "query",
+            "example": "[\"engagements\",\"customer_care\"]",
+            "required": true,
+            "description": "The names of the widgets being monitored.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "job_id": "604e6ca1-d166-4bfa-a51f-f3189f538b94",
+                        "monitor_id": 1234,
+                        "widgets_names": "['top_videos','top_images']"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page Not Found or Monitor Not Found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "Couldn't find MonitorModel with 'id'=12354443"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "not_authorized"
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      },
+      "get": {
+        "summary": "Social Listening - twitter widget_data APIs",
+        "tags": [
+          "Public APIs - Social Listening - twitter widget_data APIs"
+        ],
+        "parameters": [
+          {
+            "name": "luc-authorization",
+            "in": "header",
+            "required": true,
+            "description": "The API authorization token for the request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "query",
+            "example": "60b6a9f6-9f7e-4b5d-9e1d-8f1c4d5c6b9e",
+            "required": true,
+            "description": "The ID of the job being queried.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monitor_id",
+            "in": "query",
+            "example": 7709,
+            "required": true,
+            "description": "The ID of the monitor being used.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "data": {
+                        "dataAvailable": true,
+                        "widget_data": {
+                          "Twitter__Engagements__top_images": "{\"top_images\":[{\"id\":\"https://t.co/mBu4QAB9Fq\",\"src\":\"http://pbs.twimg.com/media/F1-tHK7WAAcjvev.jpg\",\"data\":\"http://pbs.twimg.com/media/F1-tHK7WAAcjvev.jpg:thumb\",\"stats_count\":1}]}",
+                          "Twitter__Engagements__top_videos": "{\"top_videos\":[]}"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request could not be understood by the server due to malformed syntax"
+          },
+          "401": {
+            "description": "missing_API_key",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "No API key found in request"
+                    }
+                  }
+                }
+              },
+              "example_1": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "Invalid authentication credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Job ID not found",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "error": {
+                        "status": 404,
+                        "detail": "JOB_ID_NOT_FOUND"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "too_many_requests",
+            "content": {
+              "example_0": {
+                "examples": {
+                  "example_0": {
+                    "value": {
+                      "message": "API rate limit exceeded"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_server_error"
+          },
+          "503": {
+            "description": "service_unavailable"
+          },
+          "504": {
+            "description": "request_timeout"
+          }
+        }
+      }
+    }
+  }
+}
