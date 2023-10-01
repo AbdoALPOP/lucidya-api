@@ -1,5 +1,7 @@
 site_name: Lucidya
 theme:
+  logo: assets/logo.svg
+  favicon: assets/favicon.ico
   name: material
   features:
     - navigation.footer
@@ -49,5 +51,7 @@ nav:
   - '❓ Support': './INTRODUCTION//Support.md'
 - WEBHOOKS:
   - '🔗 Get Started': './WEBHOOKS/Get-started.md'
-- LUCIDYA API:
-  - 'API Reference': './API/api.md'
+- API:
+  - 'Social Listening API': './API-References/social-listening-api.md'
+  - 'Webhook API': './API-References/webhook-api.md'
+  - 'Lucidya AI API': './API-References/lucidya-ai-api.md'
